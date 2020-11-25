@@ -1,16 +1,26 @@
 {
-  "name": "footnearby-backend",
+  "name": "film-api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "nodemon ./bin/www",
     "start": "node ./bin/www"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "data/*"
+    ]
+  },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "hbs": "^4.1.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
-  }
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "~1.4.5",
+    "debug": "~4.1.1",
+    "escape-html": "^1.0.3",
+    "express": "~4.17.1",
+    "http-errors": "~1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "~1.10.0",
+    "pug": "3.0.0"
+  },
+  "author":{"name": "e-Baron"}
 }
