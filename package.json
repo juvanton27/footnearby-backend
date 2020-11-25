@@ -22,5 +22,7 @@
     "morgan": "~1.10.0",
     "pug": "3.0.0"
   },
-  "author":{"name": "e-Baron"}
+  "author": {
+    "name": "e-Baron"
+  }
 }
