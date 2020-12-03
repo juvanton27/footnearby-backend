@@ -9,6 +9,35 @@ Content-Type: application/json
     "password":"Jj"
 }
 
+###
+POST {{baseUrl}}/users/
+Content-Type: application/json
+
+{
+    "username": "juvanton",
+    "email":"julien.vantongerloo@hotmail.com",
+    "password": "Abc",
+    "admin": true
+}
+
+###
+@julienToken = {{login.response.body.token}}
+PUT {{baseUrl}}/users/juvanton
+Content-Type: application/json
+Authorization: {{julienToken}}
+
+{
+    
+    "username": "julien.vantongerloo@hotmail.com",
+    "email":"julien.vantongerloo@hotmail.com",
+    "password": "$2b$10$Kuu0OWetWBRvIT17VYxM5.cmj2wia9ZHrSofkRD2D4gs73T2sAwa2",
+    "admin": true
+}
+
+###
+DELETE {{baseUrl}}/users/juvanton
+Authorization: {{julienToken}}
+
 ### Define & request variable & Log the user james
 # @name login
 POST {{baseUrl}}/users/login

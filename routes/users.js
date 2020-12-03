@@ -13,9 +13,9 @@ router.get("/", authorize, function (req, res, next) {
 
 /* POST user data for authentication */
 router.post("/login", function (req, res, next) {
-  let user = new User(req.body.email, req.body.email, req.body.password);
+  let user = new User(req.body.email, req.body.username, req.body.password, req.body.admin);
   console.log("POST users/login:", User.list);
-  user.checkCredentials(req.body.email, req.body.password).then((match) => {
+  user.checkCredentials(req.body.username, req.body.password).then((match) => {
     if (match) {
       jwt.sign(
         { username: user.username },
@@ -27,7 +27,7 @@ router.post("/login", function (req, res, next) {
             return res.status(500).send(err.message);
           }
           console.log("POST users/ token:", token);
-          return res.json({ username: user.username, token });
+          return res.json({ user: user, token });
         }
       );
     } else {
@@ -41,8 +41,8 @@ router.post("/login", function (req, res, next) {
 router.post("/", function (req, res, next) {
   console.log("POST users/", User.list);
   console.log("email:", req.body.email);
-  if (User.isUser(req.body.email)) return res.status(409).end();
-  let newUser = new User(req.body.email, req.body.email, req.body.password);
+  if (User.isUser(req.body.username)) return res.status(409).end();
+  let newUser = new User(req.body.email, req.body.username, req.body.password, req.body.admin);
   newUser.save().then(() => {
     console.log("afterRegisterOp:", User.list);
     jwt.sign(
@@ -55,7 +55,7 @@ router.post("/", function (req, res, next) {
           return res.status(500).send(err.message);
         }
         console.log("POST users/ token:", token);
-        return res.json({ username: newUser.username, token });
+        return res.json({ user: newUser, token });
       }
     );
     /* Example on how to create and use your own asynchronous function (signAsynchronous())
@@ -81,5 +81,19 @@ router.get("/:username", function (req, res, next) {
     return res.status(404).send("ressource not found");
   }
 });
+
+// Delete a user : DELETE /api/users/:username
+router.delete("/:username", function (req, res) {
+  const userDeleted = User.delete(req.params.username);
+  if (!userDeleted) return res.status(404).end();
+  return res.json(userDeleted);
+});
+
+/* Update a user : PUT /api/users/:username
+router.put("/:username", function (req, res) {
+  const userUpdated = User.update(req.params.email, req.params.username, req.params.password, req.params.admin);
+  if (!filmUpdated) return res.status(404).end();
+  return res.json(userUpdated);
+});*/
 
 module.exports = router;

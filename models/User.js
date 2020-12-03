@@ -5,10 +5,11 @@ const myPlaintextPassword = "145OkyayNo668Pass";
 const FILE_PATH = __dirname + "/../data/users.json";
 
 class User {
-  constructor(username, email, password) {
+  constructor(email, username, password, admin) {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.admin = admin;
   }
 
   /* return a promise with async / await */
@@ -17,18 +18,19 @@ class User {
     const hashedPassword = await bcrypt.hash(this.password, saltRounds);
     console.log("save:", this.email);
     userList.push({
-      username: this.email,
+      username: this.username,
       email: this.email,
       password: hashedPassword,
+      admin: this.admin,
     });
     saveUserListToFile(FILE_PATH, userList);
     return true;
   }
 
   /* return a promise with classic promise syntax*/
-  checkCredentials(email, password) {
-    if (!email || !password) return false;
-    let userFound = User.getUserFromList(email);
+  checkCredentials(username, password) {
+    if (!username || !password) return false;
+    let userFound = User.getUserFromList(username);
     console.log("User::checkCredentials:", userFound, " password:", password);
     if (!userFound) return Promise.resolve(false);
     //try {
@@ -50,13 +52,24 @@ class User {
     console.log("User::isUser:", userFound);
     return userFound !== undefined;
   }
-
+  
   static getUserFromList(username) {
     const userList = getUserListFromFile(FILE_PATH);
     for (let index = 0; index < userList.length; index++) {
       if (userList[index].username === username) return userList[index];
     }
     return;
+  }
+
+  static delete(username) {
+    let usersList = getUserListFromFile(FILE_PATH);
+    const index = usersList.findIndex((user) => user.username == username);
+    if (index < 0) return;
+    const itemRemoved = { ...usersList[index] };
+    // remove the film found at index
+    usersList.splice(index, 1);
+    saveUserListToFile(FILE_PATH, usersList);
+    return itemRemoved;
   }
 }
 
