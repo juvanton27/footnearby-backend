@@ -35,7 +35,7 @@ Authorization: {{julienToken}}
 }
 
 ###
-DELETE {{baseUrl}}/users/juvanton
+DELETE {{baseUrl}}/users/test
 Authorization: {{julienToken}}
 
 ### Define & request variable & Log the user james

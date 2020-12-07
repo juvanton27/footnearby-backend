@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require("../models/User.js");
 let { authorize, signAsynchronous } = require("../utils/auth");
 const jwt = require("jsonwebtoken");
+const { isAdmin } = require("../models/User.js");
 const jwtSecret = "jkjJ1235Ohno!";
 const LIFETIME_JWT = 24 * 60 * 60 * 1000; // 10;// in seconds // 24 * 60 * 60 * 1000 = 24h
 
@@ -27,7 +28,7 @@ router.post("/login", function (req, res, next) {
             return res.status(500).send(err.message);
           }
           console.log("POST users/ token:", token);
-          return res.json({ user: user, token });
+          return res.json({ user: {...user.username, admin: isAdmin(user.username)}, token });
         }
       );
     } else {
@@ -42,7 +43,7 @@ router.post("/", function (req, res, next) {
   console.log("POST users/", User.list);
   console.log("email:", req.body.email);
   if (User.isUser(req.body.username)) return res.status(409).end();
-  let newUser = new User(req.body.email, req.body.username, req.body.password, req.body.admin);
+  let newUser = new User(req.body.email, req.body.username, req.body.password, false);
   newUser.save().then(() => {
     console.log("afterRegisterOp:", User.list);
     jwt.sign(
@@ -55,7 +56,7 @@ router.post("/", function (req, res, next) {
           return res.status(500).send(err.message);
         }
         console.log("POST users/ token:", token);
-        return res.json({ user: newUser, token });
+        return res.json({ user: {...newUser.username, admin: false}, token });
       }
     );
     /* Example on how to create and use your own asynchronous function (signAsynchronous())

@@ -52,6 +52,12 @@ class User {
     console.log("User::isUser:", userFound);
     return userFound !== undefined;
   }
+
+  static isAdmin(username) {
+    const userFound = User.getUserFromList(username);
+    console.log("User::isAdmin:", userFound);
+    return userFound.admin;
+  }
   
   static getUserFromList(username) {
     const userList = getUserListFromFile(FILE_PATH);
