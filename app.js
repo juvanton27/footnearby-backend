@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 app.use("/api/users", usersRouter);
 // all the routes given in the filmRouter shall be secure : call the authorize middleware
-app.use("/api/films", authorize, filmRouter);
+app.use("/api/films", filmRouter);
 
 
 module.exports = app;

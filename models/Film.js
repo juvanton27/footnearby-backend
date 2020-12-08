@@ -48,6 +48,13 @@ class Film {
     return filmsList.find((film) => film.id == id);
   }
 
+  static search(search) {
+    let filmsList = getFilmsListFromFile(FILE_PATH);
+    return filmsList.find((film) => film.title.localeCompare(search) ||
+                                    film.link.localeCompare(search) ||
+                                    film.budget.localeCompare(search));
+  }
+
   static get list() {
     return getFilmsListFromFile(FILE_PATH);
   }

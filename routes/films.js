@@ -16,6 +16,12 @@ router.get("/",  function (req, res) {
   return res.json(Film.list);
 });
 
+// Search a film : GET /api/films/search/:search
+router.get("/:search", function(req, res) {
+  const filmsSearched = Film.search(req);
+  return res.json(filmsSearched);
+});
+
 // Read an identified film : GET /api/films/:id
 router.get("/:id", function (req, res) {
   const filmFound = Film.get(req.params.id);
