@@ -49,10 +49,14 @@ class Film {
   }
 
   static search(search) {
-    let filmsList = getFilmsListFromFile(FILE_PATH);
-    return filmsList.find((film) => film.title.localeCompare(search) ||
-                                    film.link.localeCompare(search) ||
-                                    film.budget.localeCompare(search));
+    let filmList = new Array();
+    let regex = `^.*${search}.*$`;
+    this.list.forEach(element => {
+      if(element.title.match(regex)){
+        filmList.push(element);
+      }
+    });
+    return filmList;
   }
 
   static get list() {
