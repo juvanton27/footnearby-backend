@@ -28,7 +28,7 @@ router.post("/login", function (req, res, next) {
             return res.status(500).send(err.message);
           }
           console.log("POST users/ token:", token);
-          return res.json({ user: {...user.username, admin: isAdmin(user.username)}, token });
+          return res.json({ user: {username: user.username, admin: isAdmin(user.username)}, token });
         }
       );
     } else {
@@ -56,7 +56,7 @@ router.post("/", function (req, res, next) {
           return res.status(500).send(err.message);
         }
         console.log("POST users/ token:", token);
-        return res.json({ user: {...newUser.username, admin: false}, token });
+        return res.json({ user: {username: user.username, admin: false}, token });
       }
     );
     /* Example on how to create and use your own asynchronous function (signAsynchronous())
