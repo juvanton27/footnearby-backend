@@ -4,7 +4,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var usersRouter = require("./routes/users");
-var filmRouter = require("./routes/films");
 var courtRouter = require("./routes/courts");
 let { authorize } = require("./utils/auth");
 
@@ -16,8 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/users", usersRouter);
-// all the routes given in the filmRouter shall be secure : call the authorize middleware
-app.use("/api/films", filmRouter);
 app.use("/api/courts", courtRouter);
 
 

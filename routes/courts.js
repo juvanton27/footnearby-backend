@@ -1,8 +1,3 @@
-
-
-
-
-
 "use strict";
 let express = require("express");
 let router = express.Router();
@@ -21,10 +16,9 @@ router.get("/", function(req, res) {
 });
 
 
-//Search a court: GET /api/courts/search/:search
+//Search a court: GET /api/courts/:search
 router.get("/:search", function(req, res){
-    const courtSearched= Court.search(req);
-    return res.json(courtSearched);
+    return res.json(Court.search(req.params.search));
 });
 
 //Read an identified court: GET /api/courts/:id

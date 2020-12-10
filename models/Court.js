@@ -31,11 +31,21 @@ class Court {
         let courtsList = getCourtsListFromFile(FILE_PATH);
         return courtsList.find((court) => court.id == id);
     }
+
     static search(search) {
-        let courtsList =getCourtsListFromFile(FILE_PATH);
-        return courtsList.find((court) => court.title.localeCompare(search) ||
-                                          court.adress.localeCompare(search) ||
-                                          court.city.localeCompare(search));
+        let courtsList = new Array();
+        let regex = `^.*${search}.*$`;
+        this.list.forEach(element => {
+            if(element.title.match(regex)||element.adress.match(regex)||
+                element.city.match(regex)){
+                courtsList.push(element);
+            }
+        });
+    return courtsList;
+    }
+
+    static get list() {
+        return getCourtsListFromFile(FILE_PATH);
     }
 
     static delete(id){
@@ -49,8 +59,6 @@ class Court {
         return itemRemoved;
     }
 }
-
-
 
 function getCourtsListFromFile(filePath){
     const fs = require("fs");
