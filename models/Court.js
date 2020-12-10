@@ -34,10 +34,10 @@ class Court {
 
     static search(search) {
         let courtsList = new Array();
-        let regex = `^.*${search}.*$`;
+        let regex = `^.*${search}.*$`.toLowerCase();
         this.list.forEach(element => {
-            if(element.title.match(regex)||element.adress.match(regex)||
-                element.city.match(regex)){
+            if(element.title.toLowerCase().match(regex)||element.adress.toLowerCase().match(regex)||
+                element.city.toLowerCase().match(regex)){
                 courtsList.push(element);
             }
         });
