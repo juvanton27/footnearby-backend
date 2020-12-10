@@ -1,3 +1,8 @@
+
+
+
+
+
 "use strict";
 let express = require("express");
 let router = express.Router();
@@ -7,8 +12,7 @@ let Court = require("../models/Court.js");
 router.post("/" , function(req, res){
     let newCourt= new Court(req.body);
     newCourt.save();
-    return res.json(newCourt);
-    
+    return res.json(newCourt);   
 });
 
 //Read all the existing courts: GET /api/courts/
