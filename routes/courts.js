@@ -5,6 +5,22 @@ let Court = require("../models/Court.js");
 
 //Create a new court : POST /api/courts/
 router.post("/" , function(req, res){
+    var formidable = require('formidable');
+    var fs = require('fs');
+    if(req.params.image!==null){
+        var form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, req) {
+            var oldpath = files.filetoupload.path;
+            console.log(oldpath);
+            var newpath = '../../src/images/'+Court.nextCourtId()+'-image.jpg';
+            fs.rename(oldpath, newpath, function (err) {
+                if (err) throw err;
+                res.write('File uploaded and moved!');
+                res.end();
+              });
+        });
+        req.body.image = '../images/'+Court.nextCourtId()+'-image.jpg';
+    }
     let newCourt= new Court(req.body);
     newCourt.save();
     return res.json(newCourt);   

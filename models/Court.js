@@ -5,6 +5,7 @@ const FILE_PATH = __dirname + "/../data/courts.json";
 
 class Court {
     constructor(data){
+        const fs = require('fs');
         this.id = Court.nextCourtId();
         //escape the title & link in order to protect agains XSS attacks
         this.title = escape(data.title);
@@ -13,6 +14,7 @@ class Court {
         this.surface = escape(data.surface);
         this.light = escape(data.light);
         this.cover = escape(data.cover);
+        this.image = escape(data.image);
     } 
 
     static nextCourtId() {
